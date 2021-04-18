@@ -19,37 +19,33 @@ class Viz:
     self.h, self.w = self.s.getmaxyx()
     self.max = min(self.h, (self.w - 2*Viz.SPC) // (3*Viz.RPT))
 
-  def __prep(self, n):
-    # Will be called with n (tower hight) after __init__ but before __doit
+  def __mkCenteredWin(self, n):
     yo = (self.h-n) // 2
     xo = (self.w - 3*n*Viz.RPT - 2*Viz.SPC) // 2
-    print(n, self.h, self.w, yo, xo)
     self.win = c.newwin(self.h, self.w, yo, xo)
 
-  def __doit(self):
-    # Inner method for run(), to enable terminal mode restoration
-    self.win.addstr(0, 0, "Hi, " + str(self.t.size))
+  def __vizTowers(self, t):
+    self.win.addstr(0, 0, "Hi, " + str(t.size))
     self.win.refresh()
     self.win.getkey()
 
-  def __cursmode(self):
+  def __tModeOn(self):
     c.noecho()
     c.cbreak()
     self.s.keypad(True)
 
-  def __restore(self):
+  def __tModeOff(self):
     self.s.keypad(False)
     c.nocbreak()
     c.echo()
     c.endwin()
 
   def run(self, t):
-    self.t = t
-    self.__cursmode()
-    self.__prep(t.size)
+    self.__tModeOn()
+    self.__mkCenteredWin(t.size)
     try:
-      self.__doit()
+      self.__vizTowers(t)
     except:
-      self.__restore()
+      self.__tModeOff()
       raise
-    self.__restore()
+    self.__tModeOff()
