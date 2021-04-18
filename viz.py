@@ -37,7 +37,7 @@ class Viz:
     self.win.addstr(self.size-y, (Viz.RPT*self.size + Viz.SPC)*x, Viz.HIDE*Viz.RPT*self.size)
 
   def __nextMove(self):
-    self.win.addstr(0, 0, "")
+    self.win.addstr(0, 3*self.size*Viz.RPT + 2*Viz.SPC, "")
     self.win.refresh()
     self.win.getkey()
 
@@ -54,10 +54,12 @@ class Viz:
   def __tModeOn(self):
     c.noecho()
     c.cbreak()
+    c.curs_set(0) # Hide cursor
     self.s.keypad(True)
 
   def __tModeOff(self):
     self.s.keypad(False)
+    c.curs_set(1) # Show cursor
     c.nocbreak()
     c.echo()
     c.endwin()
