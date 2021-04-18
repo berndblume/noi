@@ -27,10 +27,10 @@ class Viz:
     self.win = c.newwin(self.h, self.w, yo, xo)
 
   def __showPuck(self, y, x, w):
-    self.win.addstr(self.size-y-1, (Viz.RPT+Viz.SPC)*x, Viz.HDE*self.halfRpt*(self.size-w) + Viz.SHW*Viz.RPT*w + Viz.HDE*self.halfRpt*(self.size-w))
+    self.win.addstr(self.size-y-1, (Viz.RPT+Viz.SPC)*self.size*x, Viz.HDE*self.halfRpt*(self.size-w) + Viz.SHW*Viz.RPT*w + Viz.HDE*self.halfRpt*(self.size-w))
 
   def __hidePuck(self, y, x):
-    self.win.addstr(self.size-y-1, (Viz.RPT+Viz.SPC)*x, Viz.HDE*Viz.RPT*self.size)
+    self.win.addstr(self.size-y-1, (Viz.RPT+Viz.SPC)*self.size*x, Viz.HDE*Viz.RPT*self.size)
 
   def __nextMove(self):
     self.win.refresh()
