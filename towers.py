@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-class Twr:
+class Towers:
 
   def __mkMoves(self, n, grab, drop, via):
     if n <= 1:

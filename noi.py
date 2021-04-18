@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 from viz import Viz
-from twr import Twr
-from rda import rdargs
+from towers import Towers
+from rdargs import rdargs
 
 v = Viz()
-t = Twr(rdargs(v))
+t = Towers(rdargs(v))
 v.run(t)

@@ -3,7 +3,7 @@
 # Vizualizer in its own class to simplify plugging other visualizers than curses
 
 import curses as c
-from twr import Twr
+from towers import Towers
 
 class Viz:
   SHW = '*'

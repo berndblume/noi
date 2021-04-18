@@ -2,6 +2,8 @@
 
 from viz import Viz
 
+# Read number of pucks from command line.
+# If not given, not numeric or out of range, use max possible for screen size
 def rdargs(v):
   import sys
   a = sys.argv[1:]
