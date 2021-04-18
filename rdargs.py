@@ -2,7 +2,7 @@
 
 from viz import Viz
 
-# Read number of pucks from command line.
+# Read number of coins from command line.
 # If not given, not numeric or out of range, use max possible for screen size
 def rdargs(v):
   import sys

@@ -9,13 +9,13 @@ from towers import Towers
 class Viz:
   SHOW = '█'
   HIDE = ' '
-  RPT = 2 # How many repeated characters per puck width increment; must be a multiple of 2
+  RPT = 2 # How many repeated characters per coin width increment; must be a multiple of 2
   SPC = 2 # Space between tower racks
   MIN = 2 # Min Rack height allowed for this visualization
   max = 4 # Max Rack size - will be calculated based on screen size
   min = MIN
-  DELAY = 0.2 # Seconds to wait in animations
-  FLYDELAY = 0.1
+  DELAY = 0.4 # Seconds to wait in animations
+  FLYDELAY = 0.05
 
   def __init__(self):
     # Must init self.max for use in command line bounds checking
@@ -34,17 +34,17 @@ class Viz:
   def __status(self, str):
     self.win.addstr(self.size+1, 0, f"{str:^{self.wd}}")
 
-  def __showPuck(self, y, x, w, offset=0):
+  def __showCoin(self, y, x, w, offset=0):
     fill = Viz.HIDE*(self.halfRpt*(self.size-w))
     self.win.addstr(self.size-y, (Viz.RPT*self.size + Viz.SPC)*x+offset, fill + Viz.SHOW*Viz.RPT*w + fill)
 
-  def __hidePuck(self, y, x, offset=0):
+  def __hideCoin(self, y, x, offset=0):
     self.win.addstr(self.size-y, (Viz.RPT*self.size + Viz.SPC)*x+offset, Viz.HIDE*Viz.RPT*self.size)
 
   def __animate(self, delay=0):
     self.win.refresh()
     if delay == 0:
-      delay = Viz.DELAY / self.size
+      delay = Viz.DELAY / (4*self.size)
     sleep(delay)
 
   def __nextMove(self):
@@ -58,32 +58,32 @@ class Viz:
   def __fly(self, grab, drop, w):
     if grab < drop:
       for o in range(0, (Viz.RPT*self.size + Viz.SPC) * (drop-grab)):
-        self.__hidePuck(self.size, grab, o)
-        self.__showPuck(self.size, grab, w, o+1)
-        self.__animate(Viz.FLYDELAY / self.size)
+        self.__hideCoin(self.size, grab, o)
+        self.__showCoin(self.size, grab, w, o+1)
+        self.__animate(Viz.FLYDELAY / (4*self.size))
     else:
       for o in range(0, (Viz.RPT*self.size + Viz.SPC) * (drop-grab), -1):
-        self.__hidePuck(self.size, grab, o)
-        self.__showPuck(self.size, grab, w, o-1)
-        self.__animate(Viz.FLYDELAY / self.size)
-    self.__hidePuck(self.size, drop)
-    self.__animate(Viz.FLYDELAY / self.size)
+        self.__hideCoin(self.size, grab, o)
+        self.__showCoin(self.size, grab, w, o-1)
+        self.__animate(Viz.FLYDELAY / (4*self.size))
+    self.__hideCoin(self.size, drop)
+    self.__animate(Viz.FLYDELAY / (4*self.size))
 
   def __vizTowers(self, t):
     for n, w in enumerate(t.towers[0]):
-      self.__showPuck(n, 0, w)
+      self.__showCoin(n, 0, w)
     self.__nextMove()
     for grab, drop in t.moves:
       w = t.towers[grab][-1]
       for h in range(len(t.towers[grab])-1, self.size):
-        self.__hidePuck(h, grab)
-        self.__showPuck(h+1, grab, w)
+        self.__hideCoin(h, grab)
+        self.__showCoin(h+1, grab, w)
         self.__animate()
       self.__fly(grab, drop, w)
       t.apply(grab, drop)
       for h in range(self.size, len(t.towers[drop])-1, -1):
-        self.__hidePuck(h, drop)
-        self.__showPuck(h-1, drop, w)
+        self.__hideCoin(h, drop)
+        self.__showCoin(h-1, drop, w)
         self.__animate()
       self.__nextMove()
 

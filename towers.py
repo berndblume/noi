@@ -14,7 +14,7 @@ class Towers:
     self.size = n
     self.towers = [[*range(n, 0, -1)], [], []]
     self.moves = []
-    print("Calculating moves...")
+    print(f"Calculating moves for shuffling {n} coins...")
     self.__mkMoves(n, 0, 2, 1)
     print(f"Found solution with {len(self.moves):,} moves.")
     i = input("Hit Return to continue: > ")

@@ -8,7 +8,7 @@ I had an old jailbroken iPad on the flight with terminal access and Python.
 ## Usage
 `./noi.py <n>`
 
-Will run a Towers of Hanoi simulation for a stack of `n` pucks.
+Will run a Towers of Hanoi simulation for a stack of `n` coins.
 If `n` is not given, not numeric, or out of bounds, the maximum possible for the screen size will be assumed.
 
 ## Screenshots
