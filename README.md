@@ -24,7 +24,7 @@ I had an old jailbroken iPad with me on the flight, which I used for coding in P
 ```
 cd ~
 git clone git@github.com:bernieblume/noi.git
-cd noi
+cd noi/src
 ```
 
 ### On Windows
