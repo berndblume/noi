@@ -3,36 +3,41 @@
 # Vizualizer in its own class to simplify plugging other visualizers than curses
 
 import curses as c
+from time import sleep
 from towers import Towers
 
 class Viz:
-  SHW = '*'
-  HDE = ' '
+  SHOW = '█'
+  HIDE = ' '
   RPT = 2 # How many repeated characters per puck width increment; must be a multiple of 2
-  SPC = 2
-  MIN = 2
-  max = 4
+  SPC = 2 # Space between tower racks
+  MIN = 2 # Min Rack height allowed for this visualization
+  max = 4 # Max Rack size - will be calculated based on screen size
   min = MIN
+  DELAY = 0.2 # Seconds to wait in animations
 
   def __init__(self):
     # Must init self.max for use in command line bounds checking
     self.s = c.initscr()
     self.h, self.w = self.s.getmaxyx()
-    self.max = min(self.h, (self.w - 2*Viz.SPC) // (3*Viz.RPT))
+    self.max = min(self.h-1, (self.w - 2*Viz.SPC - 1) // (3*Viz.RPT))
     self.halfRpt = Viz.RPT // 2
 
   def __mkCenteredWin(self, n):
+    wd = 3*n*Viz.RPT + 2*Viz.SPC
     yo = (self.h-n) // 2
-    xo = (self.w - 3*n*Viz.RPT - 2*Viz.SPC) // 2
-    self.win = c.newwin(self.h, self.w, yo, xo)
+    xo = (self.w - wd) // 2
+    self.win = c.newwin(n+1, wd+1, yo, xo)
 
   def __showPuck(self, y, x, w):
-    self.win.addstr(self.size-y-1, (Viz.RPT+Viz.SPC)*self.size*x, Viz.HDE*self.halfRpt*(self.size-w) + Viz.SHW*Viz.RPT*w + Viz.HDE*self.halfRpt*(self.size-w))
+    fill = Viz.HIDE*(self.halfRpt*(self.size-w))
+    self.win.addstr(self.size-y, (Viz.RPT*self.size + Viz.SPC)*x, fill + Viz.SHOW*Viz.RPT*w + fill)
 
   def __hidePuck(self, y, x):
-    self.win.addstr(self.size-y-1, (Viz.RPT+Viz.SPC)*self.size*x, Viz.HDE*Viz.RPT*self.size)
+    self.win.addstr(self.size-y, (Viz.RPT*self.size + Viz.SPC)*x, Viz.HIDE*Viz.RPT*self.size)
 
   def __nextMove(self):
+    self.win.addstr(0, 0, "")
     self.win.refresh()
     self.win.getkey()
 
