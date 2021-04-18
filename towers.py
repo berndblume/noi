@@ -14,7 +14,10 @@ class Towers:
     self.size = n
     self.towers = [[*range(n, 0, -1)], [], []]
     self.moves = []
+    print("Calculating moves...")
     self.__mkMoves(n, 0, 2, 1)
+    print(f"Found solution with {len(self.moves):,} moves.")
+    i = input("Hit Return to continue: > ")
 
   def apply(self, grab, drop):
     self.towers[drop].append(self.towers[grab].pop())
